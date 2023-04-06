@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:full_metal_note/api/models/note_model.dart';
 import 'package:full_metal_note/views/pages/settings_page.dart';
 import 'package:full_metal_note/views/pages/write_note_page.dart';
@@ -19,10 +21,10 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
   late SembastProvider db;
   final myController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final _debouncer = Debouncer(milliseconds: 100);
+  final _debouncer = Debouncer(milliseconds: 200);
   late AnimationController _animationController;
   bool heightContainer = false;
-
+  double heightBody = 500;
   @override
   void initState() {
     db = SembastProvider();
@@ -30,6 +32,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 400),
       vsync: this,
     );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     super.initState();
 
     //--myController.addListener(scroll);
@@ -38,6 +41,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
+
     // TODO: implement dispose
     super.dispose();
   }
@@ -51,12 +55,13 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     );*/
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return principalBody(context);
+  double screenHeight(BuildContext context) {
+    print(double.negativeInfinity);
+    return (window.physicalSize.height / window.devicePixelRatio);
   }
 
-  Scaffold principalBody(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 180,
@@ -73,7 +78,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                   child: IconButton(
                     onPressed: () {
                       _animationController.forward(from: 0.0);
-
+                      FocusScope.of(context).unfocus();
                       Future.delayed(const Duration(milliseconds: 450), () {
                         Navigator.of(context)
                             .push(_createRoute(const SettingsPage()));
@@ -95,6 +100,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                       } else {
                         heightContainer = true;
                       }
+
                       _debouncer.run(() {
                         setState(() {});
                       });
@@ -122,44 +128,41 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Container(
-            color: const Color(0xffFFB4A3),
-            width: double.infinity,
-            height: (MediaQuery.of(context).size.height - 180),
-            child: FutureBuilder(
-              // future: db.getNotes(),
-              future: Provider.of<SembastProvider>(context, listen: true)
-                  .getNotes(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                      child: CircularProgressIndicator(
-                    color: Colors.blueAccent,
-                  ));
-                } else if (snapshot.hasData) {
-                  return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (_, index) {
-                        if (snapshot.data[index].title
-                            .contains(myController.text)) {
-                          return dismissibleMethod(snapshot, index, context);
-                        } else {
-                          return Container();
-                        }
-                        // return dismissibleMethod(snapshot, index, context);
-                      });
-                } else if (snapshot.hasError) {
-                  return const Center(child: Text('Error loading task list'));
-                } else {
-                  return const Center(child: Text('No tasks found'));
-                }
-              },
-            )),
-      ),
+      body: Container(
+          color: const Color(0xffFFB4A3),
+          child: FutureBuilder(
+            future:
+                Provider.of<SembastProvider>(context, listen: true).getNotes(),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.blueAccent,
+                ));
+              } else if (snapshot.hasData) {
+                return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (_, index) {
+                      if (snapshot.data[index].title
+                          .toLowerCase()
+                          .contains(myController.text.toLowerCase())) {
+                        return dismissibleMethod(snapshot, index, context);
+                      } else {
+                        return Container();
+                      }
+
+                      // return dismissibleMethod(snapshot, index, context);
+                    });
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Error loading task list'));
+              } else {
+                return const Center(child: Text('No tasks found'));
+              }
+            },
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          FocusScope.of(context).unfocus();
           Navigator.of(context).push(_createRoute(const WriteNotePage(
             isNew: true,
           )));
@@ -220,9 +223,9 @@ Route _createRoute(Widget destination) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => destination,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
+      const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
-      const curve = Curves.ease;
+      const curve = Curves.decelerate;
 
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
