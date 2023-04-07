@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:full_metal_note/api/models/note_model.dart';
+
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
+import '../../api/models/note_model.dart';
 import '../../api/provider/sembast_provider.dart';
 
 class WriteNotePage extends StatefulWidget {
@@ -43,10 +43,8 @@ class _WriteNotePageState extends State<WriteNotePage> {
                 (widget.isNew)
                     ? Provider.of<SembastProvider>(context, listen: false)
                         .addNote(saveData())
-                    //db.addNote(saveData())
                     : Provider.of<SembastProvider>(context, listen: false)
                         .updateNotes(updateData());
-                //db.updateNotes(updateData());
 
                 Navigator.pop(context);
                 /*ScaffoldMessenger.of(context).showSnackBar(
@@ -69,7 +67,6 @@ class _WriteNotePageState extends State<WriteNotePage> {
                   const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
               child: TextFormField(
                 controller: _titleController,
-                // initialValue: widget.isNew ? "" : widget.noteModel!.title,
                 maxLength: 100,
                 decoration: const InputDecoration(
                   hintText: "Titulo",
@@ -82,7 +79,6 @@ class _WriteNotePageState extends State<WriteNotePage> {
                   const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
               child: TextFormField(
                 controller: _contentController,
-                //    initialValue: widget.isNew ? "" : widget.noteModel!.content,
                 maxLines: null,
                 decoration: const InputDecoration(
                   hintText: "Contenido",

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:full_metal_note/api/provider/theme_provider.dart';
+import 'package:note_97/api/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -18,22 +18,28 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text("Ajustes"),
       ),
       body: Column(
-        children: [containerCustom(1), containerCustom(0), containerCustom(2)],
+        children: [
+          containerCustom(1, 'Dark'),
+          containerCustom(0, 'Light'),
+          containerCustom(2, 'Green')
+        ],
       ),
     );
   }
 
-  Container containerCustom(int theme) {
+  Container containerCustom(int theme, String name) {
     return Container(
-      color: const Color(0xffFFB4A3),
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      color: AppColors.customContainer,
       width: double.infinity,
       height: 100,
       child: MaterialButton(
         onPressed: () {
           Provider.of<ThemesProvider>(context, listen: false)
               .setSelectedTheme(theme);
+          setState(() {});
         },
-        child: const Text("Change"),
+        child: Text(name),
       ),
     );
   }

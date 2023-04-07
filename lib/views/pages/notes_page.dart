@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:full_metal_note/api/models/note_model.dart';
-import 'package:full_metal_note/views/pages/settings_page.dart';
-import 'package:full_metal_note/views/pages/write_note_page.dart';
+import 'package:note_97/api/models/note_model.dart';
+import 'package:note_97/views/pages/settings_page.dart';
+import 'package:note_97/views/pages/write_note_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../api/provider/sembast_provider.dart';
+import '../../api/provider/theme_provider.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -20,22 +22,18 @@ class NotesPage extends StatefulWidget {
 class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
   late SembastProvider db;
   final myController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-  final _debouncer = Debouncer(milliseconds: 200);
+  final _debouncer = Debouncer(milliseconds: 220);
   late AnimationController _animationController;
-  bool heightContainer = false;
-  double heightBody = 500;
+
   @override
   void initState() {
     db = SembastProvider();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 100),
       vsync: this,
     );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     super.initState();
-
-    //--myController.addListener(scroll);
   }
 
   @override
@@ -46,17 +44,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _scrollToPosition() {
-    _scrollController.jumpTo(_scrollController.position.maxScrollExtent / 2);
-    /*_scrollController.animateTo(
-      (_scrollController.position.maxScrollExtent / 2),
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );*/
-  }
-
   double screenHeight(BuildContext context) {
-    print(double.negativeInfinity);
     return (window.physicalSize.height / window.devicePixelRatio);
   }
 
@@ -78,10 +66,11 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                   child: IconButton(
                     onPressed: () {
                       _animationController.forward(from: 0.0);
-                      FocusScope.of(context).unfocus();
-                      Future.delayed(const Duration(milliseconds: 450), () {
-                        Navigator.of(context)
-                            .push(_createRoute(const SettingsPage()));
+                      //   FocusScope.of(context).unfocus();
+                      Future.delayed(const Duration(milliseconds: 150), () {
+                        Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (BuildContext context) =>
+                                const SettingsPage()));
                       });
                     },
                     icon: const Icon(Icons.settings_rounded),
@@ -95,12 +84,6 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                   child: TextFormField(
                     controller: myController,
                     onChanged: (value) async {
-                      if (myController.text.isEmpty) {
-                        heightContainer = false;
-                      } else {
-                        heightContainer = true;
-                      }
-
                       _debouncer.run(() {
                         setState(() {});
                       });
@@ -129,7 +112,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
         ),
       ),
       body: Container(
-          color: const Color(0xffFFB4A3),
+          color: AppColors.backgroud,
           child: FutureBuilder(
             future:
                 Provider.of<SembastProvider>(context, listen: true).getNotes(),
@@ -150,8 +133,6 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                       } else {
                         return Container();
                       }
-
-                      // return dismissibleMethod(snapshot, index, context);
                     });
               } else if (snapshot.hasError) {
                 return const Center(child: Text('Error loading task list'));
@@ -162,21 +143,16 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
           )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          FocusScope.of(context).unfocus();
-          Navigator.of(context).push(_createRoute(const WriteNotePage(
-            isNew: true,
-          )));
+          //  FocusScope.of(context).unfocus();
+          Navigator.of(context).push(CupertinoPageRoute(
+              builder: (BuildContext context) => const WriteNotePage(
+                    isNew: true,
+                  )));
         },
         tooltip: 'Añadir nota',
         child: const Icon(Icons.add),
       ),
     );
-  }
-
-  void scroll() {
-    _debouncer.run(() {
-      _scrollToPosition();
-    });
   }
 
   Dismissible dismissibleMethod(
@@ -262,11 +238,11 @@ class _MyContainerState extends State<MyContainer> {
           : const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
 
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: const Color(0xffFFB4A3),
+        // borderRadius: BorderRadius.circular(5),
+        color: AppColors.customContainer,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xff611201).withOpacity(0.1),
+            color: AppColors.shadowColor.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 1,
             offset: const Offset(2, 3),
@@ -278,15 +254,15 @@ class _MyContainerState extends State<MyContainer> {
           ListTile(
             title: Text(
               widget.notemodel.title!,
-              style: const TextStyle(fontSize: 30, color: Color(0xff611201)),
+              style: TextStyle(fontSize: 30, color: AppColors.fontColor),
             ),
             subtitle: Text(
               "${widget.notemodel.date} | ${widget.notemodel.content!.length > 100 ? widget.notemodel.content!.substring(0, 100) : widget.notemodel.content!}",
-              style: const TextStyle(fontSize: 16, color: Color(0xff611201)),
+              style: TextStyle(fontSize: 16, color: AppColors.fontColor),
             ),
-            trailing: const Icon(
+            trailing: Icon(
               Icons.edit,
-              color: Color(0xff611201),
+              color: AppColors.iconColor,
             ),
             onTap: () async {
               setState(() {
@@ -295,10 +271,11 @@ class _MyContainerState extends State<MyContainer> {
               await Future.delayed(const Duration(milliseconds: 140), () {
                 Navigator.push(
                   context,
-                  _createRoute(WriteNotePage(
-                    isNew: false,
-                    noteModel: widget.notemodel,
-                  )),
+                  CupertinoPageRoute(
+                      builder: (BuildContext context) => WriteNotePage(
+                            isNew: false,
+                            noteModel: widget.notemodel,
+                          )),
                 );
               });
 
