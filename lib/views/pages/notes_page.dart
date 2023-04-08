@@ -43,10 +43,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     animation = Tween(begin: -1.0, end: 1.0).animate(controller);
 
     controller.repeat();
-  }
 
-  @override
-  void didChangeDependencies() {
     setState(() {
       _isLoading = true;
     });
@@ -54,8 +51,6 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
           _isLoading = false;
         }));
-
-    super.didChangeDependencies();
   }
 
   @override
@@ -98,6 +93,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                   ));
                 } else if (snapshot.hasData) {
                   return GridView.builder(
+                    key: UniqueKey(),
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
                     itemCount: snapshot.data.length,
@@ -140,7 +136,20 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
       onDismissed: (direction) {
         Provider.of<SembastProvider>(context, listen: false)
             .deleteNote((snapshot.data[index]));
-        setState(() {});
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Eliminado correctamente'),
+            duration: const Duration(
+                seconds:
+                    3), // Set the duration for which the SnackBar is visible
+            behavior: SnackBarBehavior.floating, // Use the floating behavior
+            margin:
+                EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ), // Give it rounded corners
+          ),
+        );
       },
       child: FadeTransition(
         opacity: Tween<double>(begin: 0, end: 1).animate(

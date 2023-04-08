@@ -60,8 +60,11 @@ class SembastProvider extends ChangeNotifier {
   Future getNotes(String filter) async {
     await init();
     final finder = Finder(
-        filter: Filter.matches('title'.toLowerCase(), filter.toLowerCase()),
-        sortOrders: [SortOrder("name")]);
+        filter: Filter.custom((record) => record['title']!
+            .toString()
+            .toLowerCase()
+            .contains(filter.toLowerCase())),
+        sortOrders: [SortOrder(Field.key, false)]);
     final snapshot = await store.find(_db, finder: finder);
     return snapshot.map((item) {
       final pwd = NoteModel.fromMap(item.value);
@@ -86,7 +89,7 @@ class SembastProvider extends ChangeNotifier {
   Future deleteNote(NoteModel nm) async {
     final finder = Finder(filter: Filter.byKey(nm.id));
     await store.delete(_db, finder: finder);
-    //notifyListeners();
+    notifyListeners();
   }
 
   Future deleteAll() async {
