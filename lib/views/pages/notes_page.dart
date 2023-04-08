@@ -5,12 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:note_97/api/models/note_model.dart';
-import 'package:note_97/views/pages/settings_page.dart';
 import 'package:note_97/views/pages/write_note_page.dart';
 import 'package:provider/provider.dart';
 
+import '../../api/provider/appbar_provider.dart';
 import '../../api/provider/sembast_provider.dart';
-import '../../api/provider/theme_provider.dart';
+import '../../api/provider/text_provider.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -21,9 +21,12 @@ class NotesPage extends StatefulWidget {
 
 class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
   late SembastProvider db;
-  final myController = TextEditingController();
-  final _debouncer = Debouncer(milliseconds: 220);
+  // final myController = TextEditingController();
+  // final _debouncer = Debouncer(milliseconds: 220);
   late AnimationController _animationController;
+
+  late Animation<double> animation;
+  late AnimationController controller;
 
   @override
   void initState() {
@@ -34,13 +37,17 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     super.initState();
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
+    animation = Tween(begin: -1.0, end: 1.0).animate(controller);
+
+    controller.repeat();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
 
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -51,96 +58,38 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 180,
-        centerTitle: true,
-        title: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Full Metal Notes", style: TextStyle(fontSize: 28)),
-                RotationTransition(
-                  turns: CurvedAnimation(
-                      parent: _animationController, curve: Curves.linear),
-                  child: IconButton(
-                    onPressed: () {
-                      _animationController.forward(from: 0.0);
-                      //   FocusScope.of(context).unfocus();
-                      Future.delayed(const Duration(milliseconds: 150), () {
-                        Navigator.of(context).push(CupertinoPageRoute(
-                            builder: (BuildContext context) =>
-                                const SettingsPage()));
-                      });
-                    },
-                    icon: const Icon(Icons.settings_rounded),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: myController,
-                    onChanged: (value) async {
-                      _debouncer.run(() {
-                        setState(() {});
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      hintText: "Buscar",
-                    ),
-                  ),
-                ),
-                AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    width: myController.text.isNotEmpty ? 78 : 0,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              myController.clear();
-                            });
-                          },
-                          child: const Text('Cancelar')),
-                    )),
-              ],
-            ),
-          ],
-        ),
+      appBar: Provider.of<AppBarProvider>(context, listen: true).selected,
+      body: FutureBuilder(
+        future: Provider.of<SembastProvider>(context, listen: true).getNotes(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.primary,
+            ));
+          } else if (snapshot.hasData) {
+            return ListView.builder(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                itemCount: snapshot.data.length,
+                itemBuilder: (_, index) {
+                  if (snapshot.data[index].title.toLowerCase().contains(
+                      Provider.of<TextProvider>(context, listen: true)
+                          .textEditingController
+                          .text
+                          .toLowerCase())) {
+                    return dismissibleMethod(snapshot, index, context);
+                  } else {
+                    return Container();
+                  }
+                });
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error loading task list'));
+          } else {
+            return const Center(child: Text('No tasks found'));
+          }
+        },
       ),
-      body: Container(
-          color: AppColors.backgroud,
-          child: FutureBuilder(
-            future:
-                Provider.of<SembastProvider>(context, listen: true).getNotes(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.blueAccent,
-                ));
-              } else if (snapshot.hasData) {
-                return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (_, index) {
-                      if (snapshot.data[index].title
-                          .toLowerCase()
-                          .contains(myController.text.toLowerCase())) {
-                        return dismissibleMethod(snapshot, index, context);
-                      } else {
-                        return Container();
-                      }
-                    });
-              } else if (snapshot.hasError) {
-                return const Center(child: Text('Error loading task list'));
-              } else {
-                return const Center(child: Text('No tasks found'));
-              }
-            },
-          )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //  FocusScope.of(context).unfocus();
@@ -195,7 +144,7 @@ Route createRoute(Widget destination) {
   );
 }
 
-Route _createRoute(Widget destination) {
+/*Route _createRoute(Widget destination) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => destination,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -211,7 +160,7 @@ Route _createRoute(Widget destination) {
       );
     },
   );
-}
+}*/
 
 class MyContainer extends StatefulWidget {
   const MyContainer({
@@ -239,10 +188,10 @@ class _MyContainerState extends State<MyContainer> {
 
       decoration: BoxDecoration(
         // borderRadius: BorderRadius.circular(5),
-        color: AppColors.customContainer,
+        color: Theme.of(context).colorScheme.onPrimaryContainer,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadowColor.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 1,
             offset: const Offset(2, 3),
@@ -254,15 +203,17 @@ class _MyContainerState extends State<MyContainer> {
           ListTile(
             title: Text(
               widget.notemodel.title!,
-              style: TextStyle(fontSize: 30, color: AppColors.fontColor),
+              style: TextStyle(
+                  fontSize: 30, color: Theme.of(context).colorScheme.primary),
             ),
             subtitle: Text(
               "${widget.notemodel.date} | ${widget.notemodel.content!.length > 100 ? widget.notemodel.content!.substring(0, 100) : widget.notemodel.content!}",
-              style: TextStyle(fontSize: 16, color: AppColors.fontColor),
+              style: TextStyle(
+                  fontSize: 16, color: Theme.of(context).colorScheme.primary),
             ),
             trailing: Icon(
               Icons.edit,
-              color: AppColors.iconColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
             onTap: () async {
               setState(() {

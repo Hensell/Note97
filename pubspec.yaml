@@ -86,6 +86,9 @@ flutter:
     - family: Roboto Slab
       fonts:
         - asset: assets/fonts/RobotoSlab-VariableFont_wght.ttf
+    - family: Timew new roman
+      fonts:
+        - asset: assets/fonts/times-new-roman.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:note_97/api/provider/appbar_provider.dart';
 import 'package:note_97/api/provider/sembast_provider.dart';
+import 'package:note_97/api/provider/text_provider.dart';
 import 'package:note_97/api/provider/theme_provider.dart';
 import 'package:note_97/views/pages/notes_page.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,12 @@ void main() {
     ),
     ChangeNotifierProvider<ThemesProvider>(
       create: (_) => ThemesProvider(),
+    ),
+    ChangeNotifierProvider<AppBarProvider>(
+      create: (_) => AppBarProvider(),
+    ),
+    ChangeNotifierProvider<TextProvider>(
+      create: (_) => TextProvider(),
     ),
   ], child: const MyApp()));
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:note_97/api/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../api/provider/appbar_provider.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -19,25 +21,26 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Column(
         children: [
-          containerCustom(1, 'Dark'),
-          containerCustom(0, 'Light'),
-          containerCustom(2, 'Green')
+          containerCustom(0, 'Dark pink clasic', 0),
+          containerCustom(1, 'Green/blue news paper', 0),
+          containerCustom(2, 'Night theme', 1),
         ],
       ),
     );
   }
 
-  Container containerCustom(int theme, String name) {
+  Container containerCustom(int theme, String name, int appBarType) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      color: AppColors.customContainer,
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      color: Theme.of(context).colorScheme.onPrimaryContainer,
       width: double.infinity,
       height: 100,
       child: MaterialButton(
         onPressed: () {
+          Provider.of<AppBarProvider>(context, listen: false)
+              .setSelectedAppBar(appBarType);
           Provider.of<ThemesProvider>(context, listen: false)
               .setSelectedTheme(theme);
-          setState(() {});
         },
         child: Text(name),
       ),

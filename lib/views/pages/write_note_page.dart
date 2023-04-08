@@ -66,27 +66,53 @@ class _WriteNotePageState extends State<WriteNotePage> {
               margin:
                   const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
               child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
                 controller: _titleController,
                 maxLength: 100,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        width: 1,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .secondary), //<-- SEE HERE
+                    borderRadius: BorderRadius.circular(50.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        width: 1,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .secondary), //<-- SEE HERE
+                    borderRadius: BorderRadius.circular(50.0),
+                  ),
+                  hintStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                   hintText: "Titulo",
                 ),
               ),
             ),
             Container(
               height: MediaQuery.of(context).size.height,
-              margin:
-                  const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+              margin: const EdgeInsets.only(
+                  left: 10, right: 10, top: 10, bottom: 10),
               child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
                 controller: _contentController,
                 maxLines: null,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
+                  hintStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                   hintText: "Contenido",
                   focusedBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
+                      const OutlineInputBorder(borderSide: BorderSide.none),
                   enabledBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
-                  contentPadding: EdgeInsets.only(bottom: 12.0),
+                      const OutlineInputBorder(borderSide: BorderSide.none),
+                  contentPadding: const EdgeInsets.only(bottom: 12.0),
                 ),
               ),
             )

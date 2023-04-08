@@ -3,19 +3,31 @@ import 'package:flutter/material.dart';
 class ThemesProvider with ChangeNotifier {
   ThemeData _selectedTheme = ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
-      colorSchemeSeed: const Color(0xff201A19),
+      colorScheme: const ColorScheme(
+          primaryContainer: Color(0xff611201),
+          onPrimaryContainer: Color(0xffFFB4A3),
+          brightness: Brightness.dark,
+          primary: Color(0xff611201),
+          onPrimary: Color(0xffFFB4A3),
+          secondary: Color(0xff611201),
+          onSecondary: Color(0xff611201),
+          error: Colors.blue,
+          onError: Colors.blue,
+          background: Color(0xffFFB4A3),
+          onBackground: Color(0xffFFB4A3),
+          surface: Color(0xff611201),
+          onSurface: Color(0xffFFB4A3)),
       fontFamily: "Roboto Slab",
       inputDecorationTheme: InputDecorationTheme(
           hintStyle: const TextStyle(fontWeight: FontWeight.w500),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-                width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
+                width: 1, color: Color(0xffFFB4A3)), //<-- SEE HERE
             borderRadius: BorderRadius.circular(50.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-                width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
+                width: 1, color: Color(0xffFFB4A3)), //<-- SEE HERE
             borderRadius: BorderRadius.circular(50.0),
           )));
 
@@ -24,120 +36,119 @@ class ThemesProvider with ChangeNotifier {
   void setSelectedTheme(int value) {
     switch (value) {
       case 0:
-        _selectedTheme = lightTheme();
-
-        break;
-      case 1:
         _selectedTheme = darkTheme();
-
         break;
-      case 2:
+
+      case 1:
         _selectedTheme = greenTheme();
-
         break;
+
+      case 2:
+        _selectedTheme = nightTheme();
+        break;
+
       default:
         _selectedTheme = darkTheme();
     }
     notifyListeners();
   }
 
-  darkTheme() {
-    AppColors.customContainer = const Color(0xffFFB4A3);
-    AppColors.backgroud = const Color(0xffFFB4A3);
-    AppColors.shadowColor = const Color(0xff611201);
-    AppColors.fontColor = const Color(0xff611201);
-    AppColors.iconColor = const Color(0xff611201);
-
+  greenTheme() {
     return ThemeData(
         useMaterial3: true,
-        brightness: Brightness.dark,
-        colorSchemeSeed: const Color(0xff201A19),
-        /*colorScheme: const ColorScheme(
+        colorScheme: const ColorScheme(
+            primaryContainer: Color(0xff0e5f20),
+            onPrimaryContainer: Color(0xFFF5F5F5),
+            brightness: Brightness.light,
+            primary: Color(0xFF0A1172),
+            onPrimary: Color(0xFFF5F5F5),
+            secondary: Color(0xFF0A1172),
+            onSecondary: Color(0xFF0A1172),
+            error: Colors.blue,
+            onError: Colors.blue,
+            background: Color(0xFFF5F5F5),
+            onBackground: Color(0xFFF5F5F5),
+            surface: Color(0xff0e5f20),
+            onSurface: Color(0xFFF5F5F5)),
+        fontFamily: "Timew new roman",
+        shadowColor: const Color(0xff0e5f20),
+        inputDecorationTheme: InputDecorationTheme(
+            hintStyle: const TextStyle(
+                fontWeight: FontWeight.w500, color: Color(0xFFF5F5F5)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
+              borderRadius: BorderRadius.circular(50.0),
+            )));
+  }
+
+  darkTheme() {
+    return ThemeData(
+        useMaterial3: true,
+        colorScheme: const ColorScheme(
+            primaryContainer: Color(0xff611201),
+            onPrimaryContainer: Color(0xffFFB4A3),
             brightness: Brightness.dark,
             primary: Color(0xff611201),
             onPrimary: Color(0xffFFB4A3),
-            secondary: Color(0xffFFB4A3),
-            onSecondary: Color(0xffFFB4A3),
-            error: Color(0xffFFB4A3),
-            onError: Color(0xffFFB4A3),
-            background: Colors.blue,
+            secondary: Color(0xff611201),
+            onSecondary: Color(0xff611201),
+            error: Colors.blue,
+            onError: Colors.blue,
+            background: Color(0xffFFB4A3),
             onBackground: Color(0xffFFB4A3),
-            surface: Color(0xffFFB4A3),
-            onSurface: Color(0xffFFB4A3)),*/
+            surface: Color(0xff611201),
+            onSurface: Color(0xffFFB4A3)),
         fontFamily: "Roboto Slab",
         inputDecorationTheme: InputDecorationTheme(
             hintStyle: const TextStyle(fontWeight: FontWeight.w500),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                  width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
+                  width: 1, color: Color(0xffFFB4A3)), //<-- SEE HERE
               borderRadius: BorderRadius.circular(50.0),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                  width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
+                  width: 1, color: Color(0xffFFB4A3)), //<-- SEE HERE
               borderRadius: BorderRadius.circular(50.0),
             )));
   }
 
-  lightTheme() {
-    AppColors.customContainer = Colors.white;
-    AppColors.backgroud = Colors.white;
-    AppColors.shadowColor = Colors.black;
-    AppColors.fontColor = Colors.black;
-    AppColors.iconColor = const Color(0xffFFB4A3);
+  nightTheme() {
     return ThemeData(
         useMaterial3: true,
-        brightness: Brightness.light,
-        colorSchemeSeed: const Color(0xff201A19),
+        colorScheme: const ColorScheme(
+            tertiary: Colors.transparent,
+            primaryContainer: Color(0xff21005d),
+            onPrimaryContainer: Color(0xff6750a4),
+            brightness: Brightness.dark,
+            primary: Color(0xff21005d),
+            onPrimary: Color(0xff6750a4),
+            secondary: Color(0xff21005d),
+            onSecondary: Color(0xff21005d),
+            error: Colors.blue,
+            onError: Colors.blue,
+            background: Color(0xff6750a4),
+            onBackground: Color(0xff21005d),
+            surface: Color(0xff21005d),
+            onSurface: Color(0xff6750a4)),
         fontFamily: "Roboto Slab",
         inputDecorationTheme: InputDecorationTheme(
             hintStyle: const TextStyle(fontWeight: FontWeight.w500),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                  width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
+                  width: 1, color: Color(0xff1D192B)), //<-- SEE HERE
               borderRadius: BorderRadius.circular(50.0),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                  width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
+                  width: 1, color: Color(0xff1D192B)), //<-- SEE HERE
               borderRadius: BorderRadius.circular(50.0),
             )));
   }
-
-  greenTheme() {
-    AppColors.customContainer = Colors.green;
-    AppColors.backgroud = Colors.green;
-
-    AppColors.fontColor = Colors.black;
-    AppColors.iconColor = const Color(0xff0e5f20);
-
-    return ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        colorSchemeSeed: Colors.green,
-        fontFamily: "Roboto Slab",
-        shadowColor: const Color(0xff0e5f20),
-        inputDecorationTheme: InputDecorationTheme(
-            hintStyle: const TextStyle(fontWeight: FontWeight.w500),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
-              borderRadius: BorderRadius.circular(50.0),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
-              borderRadius: BorderRadius.circular(50.0),
-            )));
-  }
-}
-
-class AppColors {
-  /* Default colors */
-  static Color primary = Color(0xFF6200EE);
-  static Color customContainer = Color(0xffFFB4A3);
-  static Color backgroud = Color(0xffFFB4A3);
-  static Color shadowColor = Color(0xff201A19);
-  static Color fontColor = Color(0xff201A19);
-  static Color iconColor = Color(0xff201A19);
 }
