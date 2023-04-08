@@ -71,6 +71,7 @@ class ThemesProvider with ChangeNotifier {
             surface: Color(0xff0e5f20),
             onSurface: Color(0xFFF5F5F5)),
         fontFamily: "Timew new roman",
+        textTheme: const TextTheme(displayLarge: TextStyle(letterSpacing: 5)),
         shadowColor: const Color(0xff0e5f20),
         inputDecorationTheme: InputDecorationTheme(
             hintStyle: const TextStyle(
@@ -78,12 +79,12 @@ class ThemesProvider with ChangeNotifier {
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(
                   width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
-              borderRadius: BorderRadius.circular(50.0),
+              borderRadius: BorderRadius.circular(0.0),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
                   width: 1, color: Color(0xffD2C6C3)), //<-- SEE HERE
-              borderRadius: BorderRadius.circular(50.0),
+              borderRadius: BorderRadius.circular(0.0),
             )));
   }
 
@@ -123,32 +124,32 @@ class ThemesProvider with ChangeNotifier {
     return ThemeData(
         useMaterial3: true,
         colorScheme: const ColorScheme(
-            tertiary: Colors.transparent,
-            primaryContainer: Color(0xff21005d),
+            tertiary: Color(0xff1d0042),
+            primaryContainer: Color(0xff1d0042),
             onPrimaryContainer: Color(0xff6750a4),
             brightness: Brightness.dark,
-            primary: Color(0xff21005d),
+            primary: Color(0xff1d0042),
             onPrimary: Color(0xff6750a4),
-            secondary: Color(0xff21005d),
-            onSecondary: Color(0xff21005d),
+            secondary: Color(0xff1d0042),
+            onSecondary: Color(0xff1d0042),
             error: Colors.blue,
             onError: Colors.blue,
             background: Color(0xff6750a4),
-            onBackground: Color(0xff21005d),
-            surface: Color(0xff21005d),
+            onBackground: Color(0xff6750a4),
+            surface: Color(0xff1d0042),
             onSurface: Color(0xff6750a4)),
-        fontFamily: "Roboto Slab",
+        fontFamily: "Roboto Flex",
         inputDecorationTheme: InputDecorationTheme(
             hintStyle: const TextStyle(fontWeight: FontWeight.w500),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                  width: 1, color: Color(0xff1D192B)), //<-- SEE HERE
-              borderRadius: BorderRadius.circular(50.0),
+                  width: 3, color: Color(0xff6750a4)), //<-- SEE HERE
+              borderRadius: BorderRadius.circular(5.0),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                  width: 1, color: Color(0xff1D192B)), //<-- SEE HERE
-              borderRadius: BorderRadius.circular(50.0),
+                  width: 3, color: Color(0xff6750a4)), //<-- SEE HERE
+              borderRadius: BorderRadius.circular(5.0),
             )));
   }
 }

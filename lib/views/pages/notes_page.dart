@@ -68,21 +68,26 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
               color: Theme.of(context).colorScheme.primary,
             ));
           } else if (snapshot.hasData) {
-            return ListView.builder(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                itemCount: snapshot.data.length,
-                itemBuilder: (_, index) {
-                  if (snapshot.data[index].title.toLowerCase().contains(
-                      Provider.of<TextProvider>(context, listen: true)
-                          .textEditingController
-                          .text
-                          .toLowerCase())) {
-                    return dismissibleMethod(snapshot, index, context);
-                  } else {
-                    return Container();
-                  }
-                });
+            return GridView.builder(
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              itemCount: snapshot.data.length,
+              itemBuilder: (_, index) {
+                if (snapshot.data[index].title.toLowerCase().contains(
+                    Provider.of<TextProvider>(context, listen: true)
+                        .textEditingController
+                        .text
+                        .toLowerCase())) {
+                  return dismissibleMethod(snapshot, index, context);
+                } else {
+                  return Container();
+                }
+              },
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.7, // or whatever aspect ratio you need
+              ),
+            );
           } else if (snapshot.hasError) {
             return const Center(child: Text('Error loading task list'));
           } else {
@@ -92,7 +97,6 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //  FocusScope.of(context).unfocus();
           Navigator.of(context).push(CupertinoPageRoute(
               builder: (BuildContext context) => const WriteNotePage(
                     isNew: true,
@@ -180,14 +184,16 @@ class _MyContainerState extends State<MyContainer> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      //padding: _isPressed ? EdgeInsets.all(15) : EdgeInsets.all(20),
+      onEnd: () {
+        setState(() {
+          _isPressed = false;
+        });
+      },
       duration: const Duration(milliseconds: 150),
       margin: !_isPressed
           ? const EdgeInsets.symmetric(horizontal: 10, vertical: 10)
           : const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-
       decoration: BoxDecoration(
-        // borderRadius: BorderRadius.circular(5),
         color: Theme.of(context).colorScheme.onPrimaryContainer,
         boxShadow: [
           BoxShadow(
@@ -198,44 +204,36 @@ class _MyContainerState extends State<MyContainer> {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              widget.notemodel.title!,
-              style: TextStyle(
-                  fontSize: 30, color: Theme.of(context).colorScheme.primary),
-            ),
-            subtitle: Text(
-              "${widget.notemodel.date} | ${widget.notemodel.content!.length > 100 ? widget.notemodel.content!.substring(0, 100) : widget.notemodel.content!}",
-              style: TextStyle(
-                  fontSize: 16, color: Theme.of(context).colorScheme.primary),
-            ),
-            trailing: Icon(
-              Icons.edit,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            onTap: () async {
-              setState(() {
-                _isPressed = true;
-              });
-              await Future.delayed(const Duration(milliseconds: 140), () {
-                Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (BuildContext context) => WriteNotePage(
-                            isNew: false,
-                            noteModel: widget.notemodel,
-                          )),
-                );
-              });
-
-              setState(() {
-                _isPressed = false;
-              });
-            },
-          ),
-        ],
+      child: ListTile(
+        title: Text(
+          widget.notemodel.title!,
+          style: TextStyle(
+              fontSize: 24, color: Theme.of(context).colorScheme.primary),
+        ),
+        subtitle: Text(
+          "${widget.notemodel.date} | ${widget.notemodel.content!.length > 100 ? widget.notemodel.content!.substring(0, 100) : widget.notemodel.content!}",
+          style: TextStyle(
+              fontSize: 16, color: Theme.of(context).colorScheme.primary),
+        ),
+        /* trailing: Icon(
+          Icons.edit,
+          color: Theme.of(context).colorScheme.primary,
+        ),*/
+        onTap: () async {
+          setState(() {
+            _isPressed = true;
+          });
+          await Future.delayed(const Duration(milliseconds: 160), () {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (BuildContext context) => WriteNotePage(
+                        isNew: false,
+                        noteModel: widget.notemodel,
+                      )),
+            );
+          });
+        },
       ),
     );
   }

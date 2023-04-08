@@ -2,80 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'dart:math' as math;
 
-class SkyNight extends CustomPainter {
-  final double radius;
-
-  SkyNight(this.radius);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = radius;
-
-    Path path = Path();
-    // Adds a polygon from the starting point to quarter point of the screen and lastly
-    // it will be in the bottom middle. Close method will draw a line between start and end.
-    path.addPolygon([
-      Offset(0, size.height / 2),
-      Offset(size.width / 2, size.height),
-      Offset(size.width, size.height / 2),
-      Offset(size.width / 2, 0)
-    ], true);
-
-    /*     Path clippedPath = Path.combine(
-          PathOperation.intersect,
-          path,
-          Path()
-            ..lineTo(size.width * 300, size.height)
-            ..lineTo(0, size.height)
-            ..close());*/
-    canvas.drawPath(path, paint);
-    //  canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
+final particles = List<Particle>.generate(1000, (index) => Particle());
 
 class Sky extends CustomPainter {
-  final double value;
-
-  const Sky(this.value);
-
   @override
   void paint(Canvas canvas, Size size) {
+    // canvas.drawColor(Colors.black, BlendMode.difference);
+
     Paint paint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = value;
+      ..color = Colors.white
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 2;
 
-    Path path = Path();
-    double max = 2 * math.pi;
-
-    double width = size.width / 2;
-    double halfWidth = width / 2;
-
-    double wingRadius = halfWidth;
-    double radius = halfWidth / 2;
-
-    double degreesPerStep = (360 / 5) * (math.pi / 180.0);
-    double halfDegreesPerStep = degreesPerStep / 2;
-
-    path.moveTo(width, halfWidth);
-
-    for (double step = 0; step < max; step += degreesPerStep) {
-      path.lineTo(halfWidth + wingRadius * math.cos(step),
-          halfWidth + wingRadius * math.sin(step));
-      path.lineTo(halfWidth + radius * math.cos(step + halfDegreesPerStep),
-          halfWidth + radius * math.sin(step + halfDegreesPerStep));
+    for (var p in particles) {
+      p.pos += Offset(p.dx, p.dy);
     }
 
-    path.close();
-    canvas.drawPath(path, paint);
+    for (var p in particles) {
+      canvas.drawCircle(p.pos, p.radius, paint);
+    }
   }
 
   @override
@@ -109,5 +54,29 @@ class Sky extends CustomPainter {
   bool shouldRepaint(Sky oldDelegate) => true;
 
   @override
-  bool shouldRebuildSemantics(Sky oldDelegate) => false;
+  bool shouldRebuildSemantics(Sky oldDelegate) => true;
+}
+
+class Particle {
+  Particle() {
+    radius = Utils.range(0.1, 0.5);
+    color = Colors.white;
+    final x = Utils.range(0, 1000);
+    final y = Utils.range(0, 180);
+    pos = Offset(x, y);
+    dx = Utils.range(-0.01, 0.01);
+    dy = Utils.range(-0.01, 0.01);
+  }
+  late double radius;
+  late Color color;
+  late Offset pos;
+  late double dx;
+  late double dy;
+}
+
+final reg = math.Random();
+
+class Utils {
+  static double range(double min, double max) =>
+      reg.nextDouble() * (max - min) + min;
 }

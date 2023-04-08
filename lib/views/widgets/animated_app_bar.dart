@@ -46,13 +46,16 @@ class _AnimatedAppBarState extends State<AnimatedAppBar>
   Widget build(BuildContext context) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(180),
-      child: AnimatedBuilder(
-          animation: animation,
-          builder: (BuildContext context, Widget? child) {
-            return CustomPaint(
-                painter: Sky(animation.value),
-                child: AppBarBody(animationController: _animationController));
-          }),
+      child: Stack(
+        children: [
+          AppBarBody(animationController: _animationController),
+          AnimatedBuilder(
+              animation: animation,
+              builder: (BuildContext context, Widget? child) {
+                return CustomPaint(painter: Sky());
+              }),
+        ],
+      ),
     );
   }
 }
