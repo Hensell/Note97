@@ -66,12 +66,20 @@ class _AppBarBodyState extends State<AppBarBody> {
               ),
               AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  width: myController.text.isNotEmpty ? 78 : 0,
+                  width: Provider.of<TextProvider>(context, listen: true)
+                          .textEditingController
+                          .text
+                          .isNotEmpty
+                      ? 78
+                      : 0,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: TextButton(
                         onPressed: () {
+                          Provider.of<TextProvider>(context, listen: false)
+                              .clearText();
                           myController.clear();
+                          setState(() {});
                         },
                         child: Text(
                           'Cancelar',

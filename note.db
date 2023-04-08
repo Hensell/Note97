@@ -7,3 +7,7 @@
 {"key":27,"store":"note","value":{"id":27,"title":"asdfs","content":"asdasd","date":"2023/04/02"}}
 {"key":32,"store":"note","value":{"id":32,"title":"mmmmmmmmmmmmmm","content":"asdasd","date":"2023/04/05"}}
 {"key":20,"store":"note","value":{"id":20,"title":"etst20","content":"dss","date":"2023/03/26"}}
+{"key":33,"store":"note","value":{"id":null,"title":"e","content":"","date":"2023/04/08"}}
+{"key":17,"deleted":true,"store":"note"}
+{"key":20,"deleted":true,"store":"note"}
+{"key":34,"store":"note","value":{"id":null,"title":"s","content":"","date":"2023/04/08"}}

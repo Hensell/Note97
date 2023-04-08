@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../api/provider/appbar_provider.dart';
 import '../../api/provider/sembast_provider.dart';
+
 import '../../api/provider/text_provider.dart';
 
 class NotesPage extends StatefulWidget {
@@ -45,6 +46,19 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    setState(() {
+      _isLoading = true;
+    });
+
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
+          _isLoading = false;
+        }));
+
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     _animationController.dispose();
 
@@ -55,57 +69,68 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     return (window.physicalSize.height / window.devicePixelRatio);
   }
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: Provider.of<AppBarProvider>(context, listen: true).selected,
-      body: FutureBuilder(
-        future: Provider.of<SembastProvider>(context, listen: true).getNotes(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+    return _isLoading
+        ? const Center(
+            child: SizedBox(
+                // color: Theme.of(context).colorScheme.primary,
+                height: 300,
+                width: 300,
                 child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.primary,
-            ));
-          } else if (snapshot.hasData) {
-            return GridView.builder(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              itemCount: snapshot.data.length,
-              itemBuilder: (_, index) {
-                if (snapshot.data[index].title.toLowerCase().contains(
-                    Provider.of<TextProvider>(context, listen: true)
-                        .textEditingController
-                        .text
-                        .toLowerCase())) {
-                  return dismissibleMethod(snapshot, index, context);
+                  backgroundColor: Colors.blueAccent,
+                )),
+          )
+        : Scaffold(
+            appBar: Provider.of<AppBarProvider>(context, listen: true).selected,
+            body: FutureBuilder(
+              future: Provider.of<SembastProvider>(context, listen: true)
+                  .getNotes(Provider.of<TextProvider>(context, listen: true)
+                      .textEditingController
+                      .text),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.primary,
+                  ));
+                } else if (snapshot.hasData) {
+                  return GridView.builder(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (_, index) {
+                      return dismissibleMethod(snapshot, index, context);
+                    },
+                    shrinkWrap: true,
+                    primary: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.7,
+                      // maxCrossAxisExtent: 3, // or whatever aspect ratio you need
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Error loading task list'));
                 } else {
-                  return Container();
+                  return const Center(child: Text('No tasks found'));
                 }
               },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7, // or whatever aspect ratio you need
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error loading task list'));
-          } else {
-            return const Center(child: Text('No tasks found'));
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(CupertinoPageRoute(
-              builder: (BuildContext context) => const WriteNotePage(
-                    isNew: true,
-                  )));
-        },
-        tooltip: 'Añadir nota',
-        child: const Icon(Icons.add),
-      ),
-    );
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (BuildContext context) => const WriteNotePage(
+                          isNew: true,
+                        )));
+              },
+              tooltip: 'Añadir nota',
+              child: const Icon(Icons.add),
+            ),
+          );
   }
 
   Dismissible dismissibleMethod(
@@ -115,6 +140,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
       onDismissed: (direction) {
         Provider.of<SembastProvider>(context, listen: false)
             .deleteNote((snapshot.data[index]));
+        setState(() {});
       },
       child: FadeTransition(
         opacity: Tween<double>(begin: 0, end: 1).animate(
@@ -193,47 +219,34 @@ class _MyContainerState extends State<MyContainer> {
       margin: !_isPressed
           ? const EdgeInsets.symmetric(horizontal: 10, vertical: 10)
           : const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onPrimaryContainer,
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: const Offset(2, 3),
+      child: Card(
+        child: ListTile(
+          title: Text(
+            widget.notemodel.title!,
+            style: TextStyle(
+                fontSize: 24, color: Theme.of(context).colorScheme.secondary),
           ),
-        ],
-      ),
-      child: ListTile(
-        title: Text(
-          widget.notemodel.title!,
-          style: TextStyle(
-              fontSize: 24, color: Theme.of(context).colorScheme.primary),
+          subtitle: Text(
+            "${widget.notemodel.date} | ${widget.notemodel.content!.length > 100 ? widget.notemodel.content!.substring(0, 100) : widget.notemodel.content!}",
+            style: TextStyle(
+                fontSize: 16, color: Theme.of(context).colorScheme.secondary),
+          ),
+          onTap: () async {
+            setState(() {
+              _isPressed = true;
+            });
+            await Future.delayed(const Duration(milliseconds: 160), () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (BuildContext context) => WriteNotePage(
+                          isNew: false,
+                          noteModel: widget.notemodel,
+                        )),
+              );
+            });
+          },
         ),
-        subtitle: Text(
-          "${widget.notemodel.date} | ${widget.notemodel.content!.length > 100 ? widget.notemodel.content!.substring(0, 100) : widget.notemodel.content!}",
-          style: TextStyle(
-              fontSize: 16, color: Theme.of(context).colorScheme.primary),
-        ),
-        /* trailing: Icon(
-          Icons.edit,
-          color: Theme.of(context).colorScheme.primary,
-        ),*/
-        onTap: () async {
-          setState(() {
-            _isPressed = true;
-          });
-          await Future.delayed(const Duration(milliseconds: 160), () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                  builder: (BuildContext context) => WriteNotePage(
-                        isNew: false,
-                        noteModel: widget.notemodel,
-                      )),
-            );
-          });
-        },
       ),
     );
   }

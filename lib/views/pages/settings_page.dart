@@ -24,25 +24,27 @@ class _SettingsPageState extends State<SettingsPage> {
           containerCustom(0, 'Dark pink clasic', 0),
           containerCustom(1, 'Green/blue news paper', 0),
           containerCustom(2, 'Night theme', 1),
+          containerCustom(3, '8-bits', 0),
         ],
       ),
     );
   }
 
-  Container containerCustom(int theme, String name, int appBarType) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      color: Theme.of(context).colorScheme.onPrimaryContainer,
-      width: double.infinity,
-      height: 100,
-      child: MaterialButton(
-        onPressed: () {
-          Provider.of<AppBarProvider>(context, listen: false)
-              .setSelectedAppBar(appBarType);
-          Provider.of<ThemesProvider>(context, listen: false)
-              .setSelectedTheme(theme);
-        },
-        child: Text(name),
+  Card containerCustom(int theme, String name, int appBarType) {
+    return Card(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+        width: double.infinity,
+        height: 100,
+        child: MaterialButton(
+          onPressed: () {
+            Provider.of<AppBarProvider>(context, listen: false)
+                .setSelectedAppBar(appBarType);
+            Provider.of<ThemesProvider>(context, listen: false)
+                .setSelectedTheme(theme);
+          },
+          child: Text(name),
+        ),
       ),
     );
   }

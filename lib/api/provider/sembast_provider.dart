@@ -57,13 +57,16 @@ class SembastProvider extends ChangeNotifier {
     return id;
   }
 
-  Future getNotes() async {
+  Future getNotes(String filter) async {
     await init();
-    final finder = Finder(sortOrders: [SortOrder("name")]);
+    final finder = Finder(
+        filter: Filter.matches('title'.toLowerCase(), filter.toLowerCase()),
+        sortOrders: [SortOrder("name")]);
     final snapshot = await store.find(_db, finder: finder);
     return snapshot.map((item) {
       final pwd = NoteModel.fromMap(item.value);
       pwd.id = item.key;
+
       return pwd;
     }).toList();
   }
