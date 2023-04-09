@@ -26,10 +26,11 @@ class _AnimatedAppBarState extends State<AnimatedAppBar>
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    _animationController.forward();
+    _animationController.forward(from: 0);
     super.initState();
     controller = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
+
     animation = Tween(begin: -1.0, end: 1.0).animate(controller);
 
     controller.repeat();

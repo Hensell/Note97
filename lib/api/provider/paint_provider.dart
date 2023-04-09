@@ -59,7 +59,7 @@ class Sky extends CustomPainter {
 
 class Particle {
   Particle() {
-    radius = Utils.range(0.1, 0.5);
+    radius = Utils.range(0.01, 0.9);
     color = Colors.white;
     final x = Utils.range(0, 1000);
     final y = Utils.range(0, 180);

@@ -105,7 +105,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 0.5,
+                      childAspectRatio: 0.59,
                       // maxCrossAxisExtent: 3, // or whatever aspect ratio you need
                     ),
                   );
@@ -143,8 +143,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                 seconds:
                     3), // Set the duration for which the SnackBar is visible
             behavior: SnackBarBehavior.floating, // Use the floating behavior
-            margin:
-                EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 2),
+            margin: const EdgeInsets.only(bottom: 200),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ), // Give it rounded corners
@@ -231,12 +230,12 @@ class _MyContainerState extends State<MyContainer> {
       child: Card(
         child: ListTile(
           title: Text(
-            widget.notemodel.title!,
+            " ${widget.notemodel.title!.length > 10 ? widget.notemodel.title!.substring(0, 10) : widget.notemodel.title!}",
             style: TextStyle(
                 fontSize: 22, color: Theme.of(context).colorScheme.secondary),
           ),
           subtitle: Text(
-            "${widget.notemodel.date} | ${widget.notemodel.content!.length > 200 ? widget.notemodel.content!.substring(0, 200) : widget.notemodel.content!}",
+            "${widget.notemodel.date} | ${widget.notemodel.content!.length > 180 ? widget.notemodel.content!.substring(0, 180) : widget.notemodel.content!}",
             style: TextStyle(
                 fontSize: 14, color: Theme.of(context).colorScheme.secondary),
           ),

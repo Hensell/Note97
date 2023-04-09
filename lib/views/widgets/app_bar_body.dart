@@ -26,7 +26,10 @@ class _AppBarBodyState extends State<AppBarBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Note 97", style: TextStyle(fontSize: 28)),
+              Text("Note 97",
+                  style: TextStyle(
+                      fontSize: 28,
+                      color: Theme.of(context).colorScheme.onPrimary)),
               RotationTransition(
                 turns: CurvedAnimation(
                     parent: widget.animationController, curve: Curves.linear),
@@ -52,6 +55,8 @@ class _AppBarBodyState extends State<AppBarBody> {
             children: [
               Expanded(
                 child: TextFormField(
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primaryContainer),
                   /*  controller: Provider.of<TextProvider>(context, listen: false)
                       .textEditingController,*/
                   controller: myController,

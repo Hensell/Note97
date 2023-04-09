@@ -27,15 +27,16 @@ class AppBarProvider extends ChangeNotifier {
   void setSelectedAppBar(int value) {
     switch (value) {
       case 0:
-        _selected = const NormalAppBar();
+        _selected = const AnimatedAppBar();
+
         break;
 
       case 1:
-        _selected = const AnimatedAppBar();
+        _selected = const NormalAppBar();
         break;
 
       default:
-        _selected = const NormalAppBar();
+        _selected = const AnimatedAppBar();
     }
 
     setPref(value);

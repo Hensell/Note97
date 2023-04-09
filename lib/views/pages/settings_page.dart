@@ -21,10 +21,10 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Column(
         children: [
-          containerCustom(0, 'Dark pink clasic', 0),
-          containerCustom(1, 'Green/blue news paper', 0),
-          containerCustom(2, 'Night theme', 1),
-          containerCustom(3, '8-bits', 0),
+          containerCustom(0, 'Night', 0),
+          //   containerCustom(1, 'Old news paper', 1),
+          containerCustom(2, 'Kawaii', 1),
+          containerCustom(3, '8-bits', 1),
         ],
       ),
     );
@@ -43,7 +43,10 @@ class _SettingsPageState extends State<SettingsPage> {
             Provider.of<ThemesProvider>(context, listen: false)
                 .setSelectedTheme(theme);
           },
-          child: Text(name),
+          child: Text(
+            name,
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          ),
         ),
       ),
     );

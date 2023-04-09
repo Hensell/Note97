@@ -57,7 +57,7 @@ class _WriteNotePageState extends State<WriteNotePage> {
                 style: const TextStyle(fontWeight: FontWeight.w600),
               )),
         ],
-        title: const Text("Full Metal Notes"),
+        title: const Text("Note 97"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -67,29 +67,25 @@ class _WriteNotePageState extends State<WriteNotePage> {
                   const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
               child: TextFormField(
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 controller: _titleController,
                 maxLength: 100,
                 decoration: InputDecoration(
+                  hintStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 1,
                         color: Theme.of(context)
                             .colorScheme
-                            .secondary), //<-- SEE HERE
-                    borderRadius: BorderRadius.circular(50.0),
+                            .primary), //<-- SEE HERE
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 1,
                         color: Theme.of(context)
                             .colorScheme
-                            .secondary), //<-- SEE HERE
-                    borderRadius: BorderRadius.circular(50.0),
+                            .primary), //<-- SEE HERE
                   ),
-                  hintStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                   hintText: "Titulo",
                 ),
               ),
@@ -100,13 +96,13 @@ class _WriteNotePageState extends State<WriteNotePage> {
                   left: 10, right: 10, top: 10, bottom: 10),
               child: TextFormField(
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 controller: _contentController,
                 maxLines: null,
                 decoration: InputDecoration(
                   hintStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                   hintText: "Contenido",
                   focusedBorder:
                       const OutlineInputBorder(borderSide: BorderSide.none),
