@@ -32,6 +32,12 @@ migrate_working_dir/
 .pub/
 /build/
 
+
+=======
+.windows/
+.linux/
+.macos/
+
 # Symbolication related
 app.*.symbols
 
@@ -42,3 +48,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Database in desktop
+note.db
+
