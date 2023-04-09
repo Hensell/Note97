@@ -122,7 +122,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
               },
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () async {
+              onPressed: () {
                 /*   final player = AudioPlayer();
                 await player.setSource(AssetSource('sounds/8bit/8bit.mp3'));
                 player.play(player.source!);*/

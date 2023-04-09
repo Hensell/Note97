@@ -37,7 +37,10 @@ class PlayerProvider with ChangeNotifier {
     getPref();
   }
   playSound() async {
-    if (await getSoundPref()) _soundProvider.resume();
+    if (await getSoundPref()) {
+      await getPref();
+      _soundProvider.play(_soundProvider.source!);
+    }
   }
 
   void setSelectedSounds(int value) async {
