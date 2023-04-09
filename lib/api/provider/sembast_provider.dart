@@ -26,29 +26,25 @@ class SembastProvider extends ChangeNotifier {
 
   Future<Database> init() async {
     _db = await _openDb();
+
     return _db;
   }
 
   Future _openDb() async {
-    //todo final docsDir = await getApplicationDocumentsDirectory();
-    //todo  final dbPath = join(docsDir.path, "note.db");
-    /* if (Platform.isAndroid) {
-    final docsDir = await getApplicationDocumentsDirectory();
-    final dbPath = join(docsDir.path, "note.db");
-    final db = await dbFactory.openDatabase(dbPath);
-    return db;*/
-    // } else {
-
     var dbPath = "";
-    if (Platform.isAndroid) {
-      final docsDir = await getApplicationDocumentsDirectory();
-      dbPath = join(docsDir.path, "note.db");
+    if (!kIsWeb) {
+      if (Platform.isAndroid) {
+        final docsDir = await getApplicationDocumentsDirectory();
+        dbPath = join(docsDir.path, "note.db");
+      } else {
+        dbPath = join("note.db");
+      }
     } else {
       dbPath = join("note.db");
     }
+
     final db = await dbFactory.openDatabase(dbPath);
     return db;
-    //  }
   }
 
   Future<int> addNote(NoteModel notemodel) async {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
-final particles = List<Particle>.generate(1000, (index) => Particle());
+final particles = List<Particle>.generate(1500, (index) => Particle());
 
 class Sky extends CustomPainter {
   @override
@@ -61,7 +62,8 @@ class Particle {
   Particle() {
     radius = Utils.range(0.01, 0.9);
     color = Colors.white;
-    final x = Utils.range(0, 1000);
+    final x = Utils.range(
+        0, ui.window.physicalSize.width / ui.window.devicePixelRatio);
     final y = Utils.range(0, 180);
     pos = Offset(x, y);
     dx = Utils.range(-0.01, 0.01);

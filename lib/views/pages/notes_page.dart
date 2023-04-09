@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:note_97/api/models/note_model.dart';
@@ -32,6 +33,10 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
   @override
   void initState() {
     db = SembastProvider();
+    if (kIsWeb) {
+      db.init();
+    }
+
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 100),
       vsync: this,
@@ -43,10 +48,6 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     animation = Tween(begin: -1.0, end: 1.0).animate(controller);
 
     controller.repeat();
-
-    setState(() {
-      _isLoading = true;
-    });
 
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
           _isLoading = false;
@@ -64,7 +65,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     return (window.physicalSize.height / window.devicePixelRatio);
   }
 
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +103,12 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                     },
                     shrinkWrap: true,
                     primary: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.59,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount:
+                          MediaQuery.of(context).size.width > 800 ? 4 : 2,
+                      childAspectRatio: MediaQuery.of(context).size.width > 800
+                          ? 9 / 10
+                          : 0.59,
                       // maxCrossAxisExtent: 3, // or whatever aspect ratio you need
                     ),
                   );

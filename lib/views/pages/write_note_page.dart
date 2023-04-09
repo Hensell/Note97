@@ -67,24 +67,24 @@ class _WriteNotePageState extends State<WriteNotePage> {
                   const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
               child: TextFormField(
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onTertiary,
                 ),
                 controller: _titleController,
                 maxLength: 100,
                 decoration: InputDecoration(
-                  hintStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+                  hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onTertiary),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Theme.of(context)
                             .colorScheme
-                            .primary), //<-- SEE HERE
+                            .onTertiary), //<-- SEE HERE
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Theme.of(context)
                             .colorScheme
-                            .primary), //<-- SEE HERE
+                            .onTertiary), //<-- SEE HERE
                   ),
                   hintText: "Titulo",
                 ),
@@ -96,13 +96,13 @@ class _WriteNotePageState extends State<WriteNotePage> {
                   left: 10, right: 10, top: 10, bottom: 10),
               child: TextFormField(
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onTertiary,
                 ),
                 controller: _contentController,
                 maxLines: null,
                 decoration: InputDecoration(
-                  hintStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+                  hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onTertiary),
                   hintText: "Contenido",
                   focusedBorder:
                       const OutlineInputBorder(borderSide: BorderSide.none),
