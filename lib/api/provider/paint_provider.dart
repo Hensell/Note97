@@ -62,8 +62,7 @@ class Particle {
   Particle() {
     radius = Utils.range(0.01, 0.9);
     color = Colors.white;
-    final x = Utils.range(
-        0, ui.window.physicalSize.width / ui.window.devicePixelRatio);
+    final x = Utils.range(0, 1980);
     final y = Utils.range(0, 180);
     pos = Offset(x, y);
     dx = Utils.range(-0.01, 0.01);
