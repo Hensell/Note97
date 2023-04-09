@@ -76,10 +76,12 @@ class ThemesProvider with ChangeNotifier {
 
       case 2:
         _selectedTheme = darkTheme();
+
         break;
 
       case 3:
         _selectedTheme = eightbitTheme();
+
         break;
       default:
         _selectedTheme = nightTheme();

@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:note_97/api/provider/player_provider.dart';
 import 'package:note_97/api/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api/provider/appbar_provider.dart';
 
@@ -12,6 +15,19 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  bool switchValue = false;
+  getSwitchValue() async {
+    switchValue = await Provider.of<PlayerProvider>(context, listen: false)
+        .getSoundPref();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getSwitchValue();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +41,31 @@ class _SettingsPageState extends State<SettingsPage> {
           //   containerCustom(1, 'Old news paper', 1),
           containerCustom(2, 'Kawaii', 1),
           containerCustom(3, '8-bits', 1),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Sonido',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onTertiary)),
+                CupertinoSwitch(
+                  value: switchValue,
+                  trackColor:
+                      Theme.of(context).colorScheme.onTertiary.withOpacity(0.5),
+                  activeColor: Theme.of(context).colorScheme.onTertiary,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      switchValue = value ?? false;
+                    });
+                    Provider.of<PlayerProvider>(context, listen: false)
+                        .setSoundPref(switchValue);
+                  },
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -42,6 +83,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 .setSelectedAppBar(appBarType);
             Provider.of<ThemesProvider>(context, listen: false)
                 .setSelectedTheme(theme);
+            Provider.of<PlayerProvider>(context, listen: false)
+                .setSelectedSounds(theme);
           },
           child: Text(
             name,

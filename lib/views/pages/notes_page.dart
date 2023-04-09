@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:note_97/api/models/note_model.dart';
+import 'package:note_97/api/provider/player_provider.dart';
 import 'package:note_97/views/pages/write_note_page.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +31,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
 
   late Animation<double> animation;
   late AnimationController controller;
-
+  final playerProvider = PlayerProvider();
   @override
   void initState() {
     db = SembastProvider();
@@ -120,7 +122,11 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
               },
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {
+              onPressed: () async {
+                /*   final player = AudioPlayer();
+                await player.setSource(AssetSource('sounds/8bit/8bit.mp3'));
+                player.play(player.source!);*/
+                Provider.of<PlayerProvider>(context, listen: false).playSound();
                 Navigator.of(context).push(CupertinoPageRoute(
                     builder: (BuildContext context) => const WriteNotePage(
                           isNew: true,

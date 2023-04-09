@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_97/api/provider/appbar_provider.dart';
+import 'package:note_97/api/provider/player_provider.dart';
 import 'package:note_97/api/provider/sembast_provider.dart';
 import 'package:note_97/api/provider/text_provider.dart';
 import 'package:note_97/api/provider/theme_provider.dart';
@@ -20,6 +21,9 @@ void main() {
     ChangeNotifierProvider<TextProvider>(
       create: (_) => TextProvider(),
     ),
+    ChangeNotifierProvider<PlayerProvider>(
+      create: (_) => PlayerProvider(),
+    )
   ], child: const MyApp()));
 }
 
