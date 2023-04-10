@@ -35,60 +35,73 @@ class _SettingsPageState extends State<SettingsPage> {
         centerTitle: true,
         title: const Text("Ajustes"),
       ),
-      body: Column(
-        children: [
-          containerCustom(0, 'Night', 0),
-          //   containerCustom(1, 'Old news paper', 1),
-          containerCustom(2, 'Kawaii', 1),
-          containerCustom(3, '8-bits', 1),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Sonido',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onTertiary)),
-                CupertinoSwitch(
-                  value: switchValue,
-                  trackColor:
-                      Theme.of(context).colorScheme.onTertiary.withOpacity(0.5),
-                  activeColor: Theme.of(context).colorScheme.onTertiary,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      switchValue = value ?? false;
-                    });
-                    Provider.of<PlayerProvider>(context, listen: false)
-                        .setSoundPref(switchValue);
-                  },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              containerCustom(0, 'Night', 0),
+              //   containerCustom(1, 'Old news paper', 1),
+              containerCustom(2, 'Kawaii', 1),
+              containerCustom(3, '8-bits', 1),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Sonido',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                            color: Theme.of(context).colorScheme.onTertiary)),
+                    CupertinoSwitch(
+                      value: switchValue,
+                      trackColor: Theme.of(context)
+                          .colorScheme
+                          .onTertiary
+                          .withOpacity(0.5),
+                      activeColor: Theme.of(context).colorScheme.onTertiary,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          switchValue = value ?? false;
+                        });
+                        Provider.of<PlayerProvider>(context, listen: false)
+                            .setSoundPref(switchValue);
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )
-        ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Card containerCustom(int theme, String name, int appBarType) {
     return Card(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-        width: double.infinity,
-        height: 100,
-        child: MaterialButton(
-          onPressed: () {
-            Provider.of<AppBarProvider>(context, listen: false)
-                .setSelectedAppBar(appBarType);
-            Provider.of<ThemesProvider>(context, listen: false)
-                .setSelectedTheme(theme);
-            Provider.of<PlayerProvider>(context, listen: false)
-                .setSelectedSounds(theme);
-          },
+      child: InkWell(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        onTap: () {
+          Provider.of<AppBarProvider>(context, listen: false)
+              .setSelectedAppBar(appBarType);
+          Provider.of<ThemesProvider>(context, listen: false)
+              .setSelectedTheme(theme);
+          Provider.of<PlayerProvider>(context, listen: false)
+              .setSelectedSounds(theme);
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 120,
           child: Text(
             name,
-            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                color: Theme.of(context).colorScheme.secondary),
           ),
         ),
       ),

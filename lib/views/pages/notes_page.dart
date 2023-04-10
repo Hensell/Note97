@@ -237,11 +237,59 @@ class _MyContainerState extends State<MyContainer> {
           ? const EdgeInsets.symmetric(horizontal: 5, vertical: 5)
           : const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Card(
-        child: ListTile(
+          child: InkWell(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        onTap: () async {
+          setState(() {
+            _isPressed = true;
+          });
+          await Future.delayed(const Duration(milliseconds: 160), () {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (BuildContext context) => WriteNotePage(
+                        isNew: false,
+                        noteModel: widget.notemodel,
+                      )),
+            );
+          });
+        },
+        child: Column(
+          children: [
+            Text(
+              " ${widget.notemodel.title!.length > 20 ? widget.notemodel.title!.substring(0, 20) : widget.notemodel.title!}",
+              style: TextStyle(
+                  fontSize: 16, color: Theme.of(context).colorScheme.secondary),
+            ),
+            Divider(
+              color: Theme.of(context).colorScheme.onTertiary,
+              thickness: 3,
+            ),
+            Text(
+              "${widget.notemodel.date}",
+              style: TextStyle(
+                  fontSize: 14, color: Theme.of(context).colorScheme.secondary),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 7),
+              child: Text(
+                widget.notemodel.content!.length > 160
+                    ? widget.notemodel.content!.substring(0, 160)
+                    : widget.notemodel.content!,
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.secondary),
+              ),
+            ),
+          ],
+        ),
+      )
+          /* ListTile(
           title: Text(
             " ${widget.notemodel.title!.length > 10 ? widget.notemodel.title!.substring(0, 10) : widget.notemodel.title!}",
             style: TextStyle(
-                fontSize: 22, color: Theme.of(context).colorScheme.secondary),
+                fontSize: 16, color: Theme.of(context).colorScheme.secondary),
           ),
           subtitle: Text(
             "${widget.notemodel.date} | ${widget.notemodel.content!.length > 180 ? widget.notemodel.content!.substring(0, 180) : widget.notemodel.content!}",
@@ -263,8 +311,8 @@ class _MyContainerState extends State<MyContainer> {
               );
             });
           },
-        ),
-      ),
+        ),*/
+          ),
     );
   }
 }
