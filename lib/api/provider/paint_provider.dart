@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 final particles = List<Particle>.generate(1500, (index) => Particle());
 
