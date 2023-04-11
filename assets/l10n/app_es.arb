@@ -1,0 +1,11 @@
+{
+    "search": "Buscar",
+    "addNote": "Añadir nota",
+    "title": "Titulo",
+    "content": "Contenido",
+    "save":"Guardar",
+    "modify":"Modificar",
+    "sound":"Sonido",
+    "settings":"Ajustes",
+    "cancel":"Cancelar"
+}

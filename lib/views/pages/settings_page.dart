@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:note_97/api/provider/player_provider.dart';
 import 'package:note_97/api/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../api/provider/appbar_provider.dart';
 
@@ -33,7 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Ajustes"),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -49,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Sonido',
+                    Text(AppLocalizations.of(context)!.sound,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 20,

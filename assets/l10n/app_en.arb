@@ -1,0 +1,38 @@
+{
+  "search": "Search",
+  "@selloWorld": {
+    "description": "To search the notes"
+  },
+  "addNote": "Add note",
+  "@addNote": {
+    "description": "To search the notes"
+  },
+  "title": "Title",
+  "@title":{
+    "description": "The app's title"
+  },
+  "content": "Content",
+  "@content":{
+    "description": "The content of the app"
+  },
+  "save":"Save",
+  "@save":{
+    "description": "Ready to save"
+  },
+  "modify":"Modify",
+  "@modify":{
+    "description":"Ready to modify"
+  },
+  "sound":"Sound",
+  "@sound":{
+    "description":"To enable/disable the app sound"
+  },
+  "settings":"Settings",
+  "@settings":{
+    "description":"The app settings"
+  },
+  "cancel":"Cancel",
+  "@cancel":{
+    "description":"Cancel search"
+  }
+}

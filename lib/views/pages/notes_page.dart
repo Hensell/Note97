@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +132,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                           isNew: true,
                         )));
               },
-              tooltip: 'Añadir nota',
+              tooltip: AppLocalizations.of(context)!.addNote,
               child: const Icon(Icons.add),
             ),
           );

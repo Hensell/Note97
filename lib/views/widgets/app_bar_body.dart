@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../api/provider/text_provider.dart';
 import '../pages/settings_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppBarBody extends StatefulWidget {
   const AppBarBody({super.key, required this.animationController});
@@ -64,8 +65,8 @@ class _AppBarBodyState extends State<AppBarBody> {
                     Provider.of<TextProvider>(context, listen: false)
                         .updateText(value);
                   },
-                  decoration: const InputDecoration(
-                    hintText: "Buscar",
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.search,
                   ),
                 ),
               ),
@@ -87,7 +88,7 @@ class _AppBarBodyState extends State<AppBarBody> {
                           setState(() {});
                         },
                         child: Text(
-                          'Cancelar',
+                          AppLocalizations.of(context)!.cancel,
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.onPrimary),
                         )),

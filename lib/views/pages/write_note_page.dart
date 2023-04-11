@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../api/models/note_model.dart';
@@ -53,7 +53,9 @@ class _WriteNotePageState extends State<WriteNotePage> {
                 setState(() {});
               },
               child: Text(
-                widget.isNew ? "Listo" : "Modificar",
+                widget.isNew
+                    ? AppLocalizations.of(context)!.save
+                    : AppLocalizations.of(context)!.modify,
                 style: const TextStyle(fontWeight: FontWeight.w600),
               )),
         ],
@@ -86,7 +88,7 @@ class _WriteNotePageState extends State<WriteNotePage> {
                             .colorScheme
                             .onTertiary), //<-- SEE HERE
                   ),
-                  hintText: "Titulo",
+                  hintText: AppLocalizations.of(context)!.title,
                 ),
               ),
             ),
@@ -103,7 +105,7 @@ class _WriteNotePageState extends State<WriteNotePage> {
                 decoration: InputDecoration(
                   hintStyle: TextStyle(
                       color: Theme.of(context).colorScheme.onTertiary),
-                  hintText: "Contenido",
+                  hintText: AppLocalizations.of(context)!.content,
                   focusedBorder:
                       const OutlineInputBorder(borderSide: BorderSide.none),
                   enabledBorder:
