@@ -141,6 +141,10 @@ class ThemesProvider with ChangeNotifier {
 
   darkTheme() {
     return ThemeData(
+        snackBarTheme: const SnackBarThemeData(
+            contentTextStyle: TextStyle(
+                color: Color(0xffff8a95), fontWeight: FontWeight.w700),
+            backgroundColor: Color(0xfffcf0db)),
         useMaterial3: true,
         cardTheme: CardTheme(
           shape: RoundedRectangleBorder(
@@ -194,6 +198,9 @@ class ThemesProvider with ChangeNotifier {
 
   nightTheme() {
     return ThemeData(
+        snackBarTheme: const SnackBarThemeData(
+            contentTextStyle: TextStyle(color: Color(0xff6750a4)),
+            backgroundColor: Color(0xff1d0042)),
         cardTheme: CardTheme(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
@@ -243,6 +250,9 @@ class ThemesProvider with ChangeNotifier {
 
   eightbitTheme() {
     return ThemeData(
+        snackBarTheme: const SnackBarThemeData(
+            contentTextStyle: TextStyle(color: Color(0xff8bac0f)),
+            backgroundColor: Color(0xff0f380f)),
         cardTheme: CardTheme(
           shape: const RoundedRectangleBorder(
             side: BorderSide(

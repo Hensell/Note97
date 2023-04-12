@@ -1,0 +1,13 @@
+{
+    "search": "Pesquisar",
+    "addNote": "Adicionar nota",
+    "title": "Título",
+    "content": "Conteúdo",
+    "save": "Salvar",
+    "modify": "Modificar",
+    "sound": "Som",
+    "settings": "Configurações",
+    "cancel": "Cancelar",
+    "undo":"Desfazer",
+    "deletedSuccessfully": "Excluído com sucesso"
+}

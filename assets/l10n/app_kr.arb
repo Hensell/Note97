@@ -1,0 +1,13 @@
+{
+    "search": "검색",
+    "addNote": "노트 추가",
+    "title": "제목",
+    "content": "내용",
+    "save":"저장",
+    "modify":"수정",
+    "sound":"소리",
+    "settings":"설정",
+    "cancel":"취소",
+    "undo":"실행 취소",
+    "deletedSuccessfully": "삭제 성공"
+    }

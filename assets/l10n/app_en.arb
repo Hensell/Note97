@@ -8,31 +8,39 @@
     "description": "To search the notes"
   },
   "title": "Title",
-  "@title":{
+  "@title": {
     "description": "The app's title"
   },
   "content": "Content",
-  "@content":{
+  "@content": {
     "description": "The content of the app"
   },
-  "save":"Save",
-  "@save":{
+  "save": "Save",
+  "@save": {
     "description": "Ready to save"
   },
-  "modify":"Modify",
-  "@modify":{
-    "description":"Ready to modify"
+  "modify": "Modify",
+  "@modify": {
+    "description": "Ready to modify"
   },
-  "sound":"Sound",
-  "@sound":{
-    "description":"To enable/disable the app sound"
+  "sound": "Sound",
+  "@sound": {
+    "description": "To enable/disable the app sound"
   },
-  "settings":"Settings",
-  "@settings":{
-    "description":"The app settings"
+  "settings": "Settings",
+  "@settings": {
+    "description": "The app settings"
   },
-  "cancel":"Cancel",
-  "@cancel":{
-    "description":"Cancel search"
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel search"
+  },
+  "undo": "Undo",
+  "@undo": {
+    "description": "To undo an action"
+  },
+  "deletedSuccessfully": "Deleted successfully",
+  "@deletedSuccessfully": {
+    "description": "Deleted successfully"
   }
 }

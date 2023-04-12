@@ -1,0 +1,13 @@
+{
+    "search": "搜索",
+    "addNote": "添加笔记",
+    "title": "标题",
+    "content": "内容",
+    "save":"保存",
+    "modify":"修改",
+    "sound":"声音",
+    "settings":"设置",
+    "cancel":"取消",
+    "undo":"撤消",
+    "deletedSuccessfully": "删除成功"
+    }

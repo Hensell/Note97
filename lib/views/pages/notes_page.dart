@@ -15,6 +15,7 @@ import '../../api/provider/appbar_provider.dart';
 import '../../api/provider/sembast_provider.dart';
 
 import '../../api/provider/text_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -143,21 +144,37 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
     return Dismissible(
       key: Key(snapshot.data[index].id.toString()),
       onDismissed: (direction) {
-        Provider.of<SembastProvider>(context, listen: false)
-            .deleteNote((snapshot.data[index]));
+        bool delete = false;
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Eliminado correctamente'),
-            duration: const Duration(
-                seconds:
-                    3), // Set the duration for which the SnackBar is visible
-            behavior: SnackBarBehavior.floating, // Use the floating behavior
+            content: Text(AppLocalizations.of(context)!.deletedSuccessfully),
+            duration: const Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
             margin: const EdgeInsets.only(bottom: 200),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
-            ), // Give it rounded corners
+            ),
+            action: SnackBarAction(
+                label: AppLocalizations.of(context)!.undo,
+                onPressed: () {
+                  delete = true;
+                  setState(() {});
+                }),
           ),
         );
+        Future.delayed(const Duration(seconds: 3), () {
+          if (!delete) {
+            Provider.of<SembastProvider>(context, listen: false)
+                .deleteNote((snapshot.data[index]));
+          }
+        });
+        /*  Timer.periodic(const Duration(seconds: 3), (timer) async {
+          if (!delete) {
+            Provider.of<SembastProvider>(context, listen: false)
+                .deleteNote((snapshot.data[index]));
+          }
+        });*/
       },
       child: FadeTransition(
         opacity: Tween<double>(begin: 0, end: 1).animate(
@@ -172,6 +189,33 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
         ),
         child: MyContainer(notemodel: snapshot.data[index]),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = ElevatedButton(
+      child: Text("Cancel"),
+      onPressed: () {},
+    );
+    Widget continueButton = ElevatedButton(
+      child: Text("Continue"),
+      onPressed: () {},
+    ); // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("AlertDialog"),
+      content: Text(
+          "Would you like to continue learning how to use Flutter alerts?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    ); // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

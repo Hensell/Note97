@@ -7,5 +7,7 @@
     "modify":"Modificar",
     "sound":"Sonido",
     "settings":"Ajustes",
-    "cancel":"Cancelar"
+    "cancel":"Cancelar",
+    "undo":"Deshacer",
+    "deletedSuccessfully": "Eliminado correctamente"
 }

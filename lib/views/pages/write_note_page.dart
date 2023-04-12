@@ -68,6 +68,7 @@ class _WriteNotePageState extends State<WriteNotePage> {
               margin:
                   const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
               child: TextFormField(
+                cursorColor: Theme.of(context).colorScheme.onTertiary,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onTertiary,
                 ),
@@ -97,6 +98,7 @@ class _WriteNotePageState extends State<WriteNotePage> {
               margin: const EdgeInsets.only(
                   left: 10, right: 10, top: 10, bottom: 10),
               child: TextFormField(
+                cursorColor: Theme.of(context).colorScheme.onTertiary,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onTertiary,
                 ),

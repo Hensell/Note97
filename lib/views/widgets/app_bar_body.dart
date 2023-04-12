@@ -56,6 +56,7 @@ class _AppBarBodyState extends State<AppBarBody> {
             children: [
               Expanded(
                 child: TextFormField(
+                  cursorColor: Theme.of(context).colorScheme.onTertiary,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primaryContainer),
                   /*  controller: Provider.of<TextProvider>(context, listen: false)
