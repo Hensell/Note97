@@ -15,7 +15,6 @@ import '../../api/provider/appbar_provider.dart';
 import '../../api/provider/sembast_provider.dart';
 
 import '../../api/provider/text_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -195,16 +194,16 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = ElevatedButton(
-      child: Text("Cancel"),
+      child: const Text("Cancel"),
       onPressed: () {},
     );
     Widget continueButton = ElevatedButton(
-      child: Text("Continue"),
+      child: const Text("Continue"),
       onPressed: () {},
     ); // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("AlertDialog"),
-      content: Text(
+      title: const Text("AlertDialog"),
+      content: const Text(
           "Would you like to continue learning how to use Flutter alerts?"),
       actions: [
         cancelButton,
