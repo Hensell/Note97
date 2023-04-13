@@ -215,7 +215,7 @@ class ThemesProvider with ChangeNotifier {
             onTertiary: Color(0xff1d0042),
             tertiary: Color(0xff1d0042),
             primaryContainer: Color(0xff1d0042),
-            onPrimaryContainer: Color(0xff6750a4),
+            onPrimaryContainer: Color(0xffc26ed8),
             brightness: Brightness.dark,
             primary: Color(0xffc26ed8),
             onPrimary: Color(0xff6750a4),

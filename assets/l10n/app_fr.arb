@@ -9,5 +9,7 @@
     "settings": "Paramètres",
     "cancel": "Annuler",
     "undo":"Annuler",
-    "deletedSuccessfully": "Supprimé avec succès"
+    "deletedSuccessfully": "Supprimé avec succès",
+    "ok":"Ok",
+    "exitDialog": "Êtes-vous sûr de vouloir quitter sans enregistrer les modifications ?"
 }

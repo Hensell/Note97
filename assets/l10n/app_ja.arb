@@ -9,5 +9,7 @@
     "settings": "設定",
     "cancel": "キャンセル",
     "undo":"元に戻す",
-    "deletedSuccessfully": "削除されました"
+    "deletedSuccessfully": "削除されました",
+    "ok":"はい",
+    "exitDialog":"変更内容を保存せずに終了しますか？"
 }

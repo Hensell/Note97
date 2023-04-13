@@ -9,5 +9,7 @@
     "settings":"设置",
     "cancel":"取消",
     "undo":"撤消",
-    "deletedSuccessfully": "删除成功"
+    "deletedSuccessfully": "删除成功",
+    "ok" : "好的",
+    "exitDialog": "您确定要退出而不保存更改吗？"
     }

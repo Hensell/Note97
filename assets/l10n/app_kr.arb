@@ -9,5 +9,7 @@
     "settings":"설정",
     "cancel":"취소",
     "undo":"실행 취소",
-    "deletedSuccessfully": "삭제 성공"
+    "deletedSuccessfully": "삭제 성공",
+    "ok":"확인",
+    "exitDialog":"변경 내용을 저장하지 않고 나가시겠습니까?"
     }

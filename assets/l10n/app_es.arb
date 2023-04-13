@@ -9,5 +9,7 @@
     "settings":"Ajustes",
     "cancel":"Cancelar",
     "undo":"Deshacer",
-    "deletedSuccessfully": "Eliminado correctamente"
+    "deletedSuccessfully": "Eliminado correctamente",
+    "ok":"Ok",
+    "exitDialog":"¿Estás seguro que deseas salir sin guardar los cambios?"
 }

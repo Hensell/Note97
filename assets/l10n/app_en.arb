@@ -42,5 +42,13 @@
   "deletedSuccessfully": "Deleted successfully",
   "@deletedSuccessfully": {
     "description": "Deleted successfully"
+  },
+  "ok":"Ok",
+  "@ok":{
+    "description":"Ok action"
+  },
+  "exitDialog": "Are you sure you want to exit without saving the changes?",
+  "@exitDialog":{
+    "description":"Exit messeage"
   }
 }

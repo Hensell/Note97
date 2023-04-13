@@ -16,6 +16,13 @@ class AppBarBody extends StatefulWidget {
 
 class _AppBarBodyState extends State<AppBarBody> {
   TextEditingController myController = TextEditingController();
+  final FocusNode myFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    myFocusNode.unfocus();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +43,7 @@ class _AppBarBodyState extends State<AppBarBody> {
                     parent: widget.animationController, curve: Curves.linear),
                 child: IconButton(
                   onPressed: () {
+                    myFocusNode.unfocus();
                     widget.animationController.forward(from: 0.0);
 
                     Future.delayed(const Duration(milliseconds: 250), () {
@@ -56,6 +64,7 @@ class _AppBarBodyState extends State<AppBarBody> {
             children: [
               Expanded(
                 child: TextFormField(
+                  focusNode: myFocusNode,
                   cursorColor: Theme.of(context).colorScheme.onTertiary,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primaryContainer),
@@ -86,6 +95,7 @@ class _AppBarBodyState extends State<AppBarBody> {
                           Provider.of<TextProvider>(context, listen: false)
                               .clearText();
                           myController.clear();
+                          myFocusNode.unfocus();
                           setState(() {});
                         },
                         child: Text(

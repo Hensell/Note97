@@ -95,15 +95,13 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                     color: Theme.of(context).colorScheme.primary,
                   ));
                 } else if (snapshot.hasData) {
-                  return GridView.builder(
+                  return AnimatedGrid(
                     key: UniqueKey(),
-                    physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (_, index) {
+                    initialItemCount: snapshot.data.length,
+                    itemBuilder: (_, index, Animation<double> animation) {
                       return dismissibleMethod(snapshot, index, context);
                     },
-                    shrinkWrap: true,
+                    //shrinkWrap: true,
                     primary: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
@@ -123,6 +121,8 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
+                unFocus(context);
+
                 /*   final player = AudioPlayer();
                 await player.setSource(AssetSource('sounds/8bit/8bit.mp3'));
                 player.play(player.source!);*/
@@ -136,6 +136,12 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
               child: const Icon(Icons.add),
             ),
           );
+  }
+
+  unFocus(BuildContext context) {
+    if (!FocusScope.of(context).hasPrimaryFocus) {
+      FocusScope.of(context).unfocus();
+    }
   }
 
   Dismissible dismissibleMethod(
@@ -299,9 +305,14 @@ class _MyContainerState extends State<MyContainer> {
           });
         },
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              " ${widget.notemodel.title!.length > 20 ? widget.notemodel.title!.substring(0, 20) : widget.notemodel.title!}",
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              //   softWrap: false,
+              " ${widget.notemodel.title!}",
               style: TextStyle(
                   fontSize: 16, color: Theme.of(context).colorScheme.secondary),
             ),
@@ -317,9 +328,10 @@ class _MyContainerState extends State<MyContainer> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 7),
               child: Text(
-                widget.notemodel.content!.length > 160
-                    ? widget.notemodel.content!.substring(0, 160)
-                    : widget.notemodel.content!,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 11,
+                softWrap: false,
+                widget.notemodel.content!,
                 style: TextStyle(
                     fontSize: 14,
                     color: Theme.of(context).colorScheme.secondary),
