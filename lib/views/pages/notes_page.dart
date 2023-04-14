@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
-
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -95,11 +95,14 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                     color: Theme.of(context).colorScheme.primary,
                   ));
                 } else if (snapshot.hasData) {
-                  return AnimatedGrid(
+                  return GridView.builder(
                     key: UniqueKey(),
-                    initialItemCount: snapshot.data.length,
-                    itemBuilder: (_, index, Animation<double> animation) {
-                      return dismissibleMethod(snapshot, index, context);
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (_, index) {
+                      return dismissibleMethod(snapshot, index, context)
+                          .animate(delay: const Duration(milliseconds: 250))
+                          .fade()
+                          .scale();
                     },
                     //shrinkWrap: true,
                     primary: true,
@@ -111,6 +114,16 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                           : 0.59,
                       // maxCrossAxisExtent: 3, // or whatever aspect ratio you need
                     ),
+
+                    /*
+                    
+                     SliverGridDelegateWithMaxCrossAxisExtent(
+                      mainAxisExtent: 2500,
+                      maxCrossAxisExtent: 200.0,
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10.0,
+                    ),
+                     */
                   );
                 } else if (snapshot.hasError) {
                   return const Center(child: Text('Error loading task list'));
@@ -174,26 +187,8 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                 .deleteNote((snapshot.data[index]));
           }
         });
-        /*  Timer.periodic(const Duration(seconds: 3), (timer) async {
-          if (!delete) {
-            Provider.of<SembastProvider>(context, listen: false)
-                .deleteNote((snapshot.data[index]));
-          }
-        });*/
       },
-      child: FadeTransition(
-        opacity: Tween<double>(begin: 0, end: 1).animate(
-          CurvedAnimation(
-            parent: ModalRoute.of(context)!.animation!,
-            curve: const Interval(
-              0.0,
-              0.5,
-              curve: Curves.easeOut,
-            ),
-          ),
-        ),
-        child: MyContainer(notemodel: snapshot.data[index]),
-      ),
+      child: MyContainer(notemodel: snapshot.data[index]),
     );
   }
 
