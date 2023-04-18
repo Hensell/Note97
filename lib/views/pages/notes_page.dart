@@ -95,7 +95,19 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                     color: Theme.of(context).colorScheme.primary,
                   ));
                 } else if (snapshot.hasData) {
-                  return GridView.builder(
+                  return SingleChildScrollView(
+                    child: Wrap(
+                      children: List<Widget>.generate(snapshot.data.length,
+                              (index) {
+                        return dismissibleMethod(snapshot, index, context);
+                      })
+                          .animate(interval: const Duration(milliseconds: 200))
+                          .fade()
+                          .scale(),
+                    ),
+                  );
+
+                  /*    return GridView.builder(
                     key: UniqueKey(),
                     itemCount: snapshot.data.length,
                     itemBuilder: (_, index) {
@@ -124,7 +136,7 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                       crossAxisSpacing: 10.0,
                     ),
                      */
-                  );
+                  );*/
                 } else if (snapshot.hasError) {
                   return const Center(child: Text('Error loading task list'));
                 } else {
@@ -271,6 +283,8 @@ class _MyContainerState extends State<MyContainer> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
+      width: 180,
+      height: 300,
       onEnd: () {
         setState(() {
           _isPressed = false;
