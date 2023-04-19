@@ -85,7 +85,7 @@ class SembastProvider extends ChangeNotifier {
   Future deleteNote(NoteModel nm) async {
     final finder = Finder(filter: Filter.byKey(nm.id));
     await store.delete(_db, finder: finder);
-    notifyListeners();
+    //notifyListeners();
   }
 
   Future deleteAll() async {
