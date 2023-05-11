@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_97/views/widgets/app_bar_body.dart';
 
-class NormalAppBar extends StatefulWidget with PreferredSizeWidget {
+class NormalAppBar extends StatefulWidget {
   const NormalAppBar({super.key});
 
   @override

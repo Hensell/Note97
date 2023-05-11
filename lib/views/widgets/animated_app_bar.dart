@@ -4,7 +4,7 @@ import 'package:note_97/views/widgets/app_bar_body.dart';
 
 import '../../api/provider/paint_provider.dart';
 
-class AnimatedAppBar extends StatefulWidget with PreferredSizeWidget {
+class AnimatedAppBar extends StatefulWidget {
   const AnimatedAppBar({super.key});
 
   @override

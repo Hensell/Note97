@@ -6,8 +6,8 @@ import '../../views/widgets/normal_app_bar.dart';
 
 class AppBarProvider extends ChangeNotifier {
   final String themePreferenceKey = 'appBar_preference';
-  PreferredSizeWidget _selected = const NormalAppBar();
-  PreferredSizeWidget get selected => _selected;
+  Widget _selected = const NormalAppBar();
+  Widget get selected => _selected;
 
   getPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

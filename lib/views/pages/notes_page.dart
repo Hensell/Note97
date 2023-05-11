@@ -82,7 +82,10 @@ class _NotesPageState extends State<NotesPage> with TickerProviderStateMixin {
                 )),
           )
         : Scaffold(
-            appBar: Provider.of<AppBarProvider>(context, listen: true).selected,
+            appBar: AppBar(
+                toolbarHeight: 150,
+                title: Provider.of<AppBarProvider>(context, listen: true)
+                    .selected),
             body: FutureBuilder(
               future: Provider.of<SembastProvider>(context, listen: true)
                   .getNotes(Provider.of<TextProvider>(context, listen: true)
