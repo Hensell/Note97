@@ -1,8 +1,7 @@
 # Note97
 
 ## Descripción
-Una aplicación sencilla para tomar notas con distintos temas.
-
+Una aplicación sencilla para tomar notas con distintos temas. Está fue una aplicación de principiante, para aprender lo básico de flutter.
 
 
 ## Características Principales
